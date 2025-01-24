@@ -54,7 +54,7 @@ router.get("/", async (req, res) => {
       filter: filter,
     };
 
-    const data = await controller.get(options); // Asegúrate de que tu controlador maneje estas opciones
+    const data = await controller.get(options); 
 
     res.status(200).send({ error: null, data });
   } catch (err) {

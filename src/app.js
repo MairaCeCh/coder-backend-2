@@ -7,9 +7,9 @@ import mongoose from "mongoose";
 import handlebars from "express-handlebars";
 import config from "./config.js";
 import cookieParser from "cookie-parser";
-// import pruebasRouter from "./pruebasRouter.js";
+
 import session from "express-session"
-// import router from "./pruebasRouter.js";
+
 import router from "./routes/index.js";
 import { initializedPassport } from "./config/passport.config.js";
 
@@ -41,11 +41,9 @@ app.use(cookieParser());
 
 
 
-// app.use("/api/products", productsRouter);
-// app.use("/api/carts", cartsRouter);
+
 app.use("/api", router);
 
-// app.use("/pruebas", pruebasRouter);
 
 /// Vistas
 app.use("/", viewsRouter);

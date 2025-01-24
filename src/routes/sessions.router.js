@@ -84,13 +84,7 @@ router.get("/google", passport.authenticate("google", {
 
 router.get("/current", passportCall("jwt"), authorization("admin"), async (req, res) => {
 
-//     const token = req.cookies.token;
 
-// const validToken = verifyToken(token);
-
-// if (!validToken) return res.send("no token");
-
-//     const user = await userDao.getByEmail(validToken.email);
 res.json({status: "ok", user: req.user}); 
 });
 

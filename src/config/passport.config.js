@@ -25,7 +25,7 @@ export const initializedPassport = () => {
         try {
             const { first_Name, last_Name, age, role } = req.body;
             const user = await userDao.getByEmail(username);
-            // console.log("🚀 ~ passport.use ~ user:", user)
+      
             if (user) {
                 return done(null, false, { message: "el usuario ya existe" });
               

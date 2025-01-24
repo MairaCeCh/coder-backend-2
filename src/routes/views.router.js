@@ -3,7 +3,7 @@ import { Router } from "express";
 import ProductDao from "../dao/product.dao.js";
 import {cartDao} from "../dao/cart.dao.js";
 
-// const CaController = new cartDao()
+
 const ProController = new ProductDao()
 
 const router = Router();
@@ -94,7 +94,7 @@ router.get('/carts', async (req, res)=> {
     try {
         const response = await fetch('http://localhost:8080/api/carts')
         const carts = await response.json();
-      //  console.log('carts:',carts)
+
         res.render('carts', {carts: carts.data});
     } catch (error) {
         console.error('Error al obtener productos:', error);
@@ -112,19 +112,6 @@ router.get('/carts/:cid', async(req, res)=> {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-//////////////////////////////////////////////////////
 router.get('/realTimeProducts', (req,res)=> {
     res.status(200).render('realTimeProducts')
 })

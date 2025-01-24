@@ -2,10 +2,10 @@ import mongoose from "mongoose";
 import mongoosePaginate from 'mongoose-paginate-v2';
 import config from "../../config.js";
 
-// Anulamos comportamiento de renombre por defecto de colecciones
+
 mongoose.pluralize(null);
 
-// Colección
+
 const collection = config.PRODUCTS_COLLECTION;
 
 const schema = new mongoose.Schema(

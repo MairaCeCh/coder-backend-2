@@ -3,20 +3,11 @@ import { Router } from "express";
 import {cartDao} from "../dao/cart.dao.js";
 
 const router = Router();
-// const controller = new cartDao();
+
 
 let storeProducts = [];
 
-// async function fetchProducts(filePath) {
-//   try {
-//     const data = await fs.promises.readFile(filePath, "utf-8");
-//     storeProducts = JSON.parse(data);
-//   } catch (error) {
-//     console.error("Error reading JSON file:", error);
-//   }
-// }
 
-// fetchProducts("./src/products.json");
 
 router.get('/', async (req, res)=> {
     const process = await cartDao.get()
