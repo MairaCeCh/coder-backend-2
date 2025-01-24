@@ -7,7 +7,7 @@ import mongoose from "mongoose";
 import handlebars from "express-handlebars";
 import config from "./config.js";
 import cookieParser from "cookie-parser";
-import pruebasRouter from "./pruebasRouter.js";
+// import pruebasRouter from "./pruebasRouter.js";
 import session from "express-session"
 // import router from "./pruebasRouter.js";
 import router from "./routes/index.js";
@@ -25,8 +25,9 @@ app.set("view engine", "handlebars");
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-/////cookies////
-app.use(cookieParser('maySecret'));
+
+
+// app.use(cookieParser('maySecret'));
 
 ////session///
 app.use(session({
@@ -34,7 +35,9 @@ app.use(session({
   resave: true,
   saveUninitialized:true
 }))
+/////cookies////
 initializedPassport();
+app.use(cookieParser());
 
 
 
@@ -42,7 +45,7 @@ initializedPassport();
 // app.use("/api/carts", cartsRouter);
 app.use("/api", router);
 
-app.use("/pruebas", pruebasRouter);
+// app.use("/pruebas", pruebasRouter);
 
 /// Vistas
 app.use("/", viewsRouter);

@@ -60,6 +60,13 @@ class CartDao {
     }
   };
 
+
+
+  create = async () => {
+    const cart = await cartModel.create({});
+    return cart
+  }
+
   add = async (data) => {
     try {
       return await cartModel.create(
@@ -87,4 +94,4 @@ class CartDao {
   };
 }
 
-export default CartDao;
+export const cartDao = new CartDao();

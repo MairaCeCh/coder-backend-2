@@ -10,6 +10,7 @@ export const verifyToken = (token) => {
 try{
         return jwt.verify(token, "codigoSecreto");
 }catch(error){
+  console.log(error);
   return null;
 }
 

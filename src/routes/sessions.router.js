@@ -3,11 +3,13 @@ import { Router } from 'express';
 import { userDao } from "../dao/user.dao.js";
 import { createHash } from "../utils/hashPassword.js";
 import passport from 'passport';
-import { createToken } from '../utils/jwt.js';
+import { createToken,  verifyToken  } from '../utils/jwt.js';
+import { passportCall } from '../middlewares/passportCall.middlewares.js';
+import { authorization } from '../middlewares/authorization.middlewares.js';
 
 const router = Router();
 
-router.post("/register", passport.authenticate("register"), async (req, res) => {
+router.post("/register", passportCall("register"), async (req, res) => {
     try {
         res.status(201).json({ status: "success", payload: "usuario registrado" });
     } catch (error) {
@@ -16,29 +18,18 @@ router.post("/register", passport.authenticate("register"), async (req, res) => 
     }
 });
 
-router.post("/login", passport.authenticate("login"), async (req, res) => {
+router.post("/login", passportCall("login"), async (req, res) => {
     try {
-           req.session.user = {
-          
-            first_name: req.user.first_name,
-            last_name: req.user.last_name,
-            email: req.user.email,
-            age: req.user.age,
-            role: "user"
-           } 
-           console.log("🚀 ~ router.post ~ req.session.user:", req.session.user)
-           
-           const token = createToken(req.user);
-           console.log("🚀 ~ router.post ~ token:", token)
-           
-
-        res.status(200).json({ status: "success", payload: req.session.user, token });
+      
+      const token = createToken(req.user);
+      res.cookie("token", token, { httpOnly: true });
+  
+      res.status(200).json({ status: "success", payload: req.user, token });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({ status: "error", msg: "Error en la creación de la sesión" });
+      console.log(error);
+      res.status(500).json({ status: "Erro", msg: "Error interno del servidor" });
     }
-});
-
+  });
 
 router.get("/profile", async (req, res) => {
     try {
@@ -89,4 +80,18 @@ router.get("/google", passport.authenticate("google", {
 }), async (req, res) =>{
     return res.status(200).json({ status: "success", session: req.user });
 })
+
+
+router.get("/current", passportCall("jwt"), authorization("admin"), async (req, res) => {
+
+//     const token = req.cookies.token;
+
+// const validToken = verifyToken(token);
+
+// if (!validToken) return res.send("no token");
+
+//     const user = await userDao.getByEmail(validToken.email);
+res.json({status: "ok", user: req.user}); 
+});
+
 export default router;

@@ -1,9 +1,9 @@
 import { Router } from "express";
 
-import CartDao from "../dao/cart.dao.js";
+import {cartDao} from "../dao/cart.dao.js";
 
 const router = Router();
-const controller = new CartDao();
+// const controller = new cartDao();
 
 let storeProducts = [];
 
@@ -19,14 +19,14 @@ let storeProducts = [];
 // fetchProducts("./src/products.json");
 
 router.get('/', async (req, res)=> {
-    const process = await controller.get()
+    const process = await cartDao.get()
     res.status(200).send({error: null, data: process})
 })
 
 router.get("/:cid", async(req, res) => {
   const cartID = req.params.cid;
   try {
-    const cart = await controller.getOne({_id:cartID});
+    const cart = await cartDao.getOne({_id:cartID});
     res.send({cart});
 } catch (error) {
     console.error('Error al obtener productos:', error);
@@ -36,14 +36,14 @@ router.get("/:cid", async(req, res) => {
 
 
 router.post("/", async (req, res) => {
-  const process = await controller.add({products: []});
+  const process = await cartDao.add({products: []});
   res.status(201).send({ error: null, data: process });
 });
 
 
 router.put("/:cid/products/:pid", async (req, res) => {
     const { cid, pid } = req.params;
-    const cart = await controller.fOne({ _id: cid });
+    const cart = await cartDao.fOne({ _id: cid });
     
     if (!cart) {
         console.log('Carrito no encontrado:', cart);
@@ -64,7 +64,7 @@ router.put("/:cid/products/:pid", async (req, res) => {
         products: cart.products
     };
     
-    const updatedCart = await controller.addProduct(cartToUpdate);
+    const updatedCart = await cartDao.addProduct(cartToUpdate);
     
     res.status(200).send({ error: null, data: updatedCart });
 });
@@ -74,14 +74,14 @@ router.delete('/:cid/products/:pid', async (req, res) => {
 
     try {
    
-        const cart = await controller.fOne({ _id: cid });
+        const cart = await cartDao.fOne({ _id: cid });
         if (!cart) {
             return res.status(404).send({ error: 'Carrito no encontrado' });
         }
 
         const updatedProducts = cart.products.filter(product => product._id.toString() !== pid);
 
-        const updatedCart = await controller.update(
+        const updatedCart = await cartDao.update(
             { _id: cid }, 
             { products: updatedProducts }, 
             { new: true } 
@@ -98,14 +98,14 @@ router.delete('/:cid', async (req, res) => {
     const { cid } = req.params;
 
     try {
-        const cart = await controller.fOne({ _id: cid });
+        const cart = await cartDao.fOne({ _id: cid });
         console.log('cart:', cart);
         
         if (!cart) {
             return res.status(404).send({ error: 'Carrito no encontrado' });
         }
 
-        const updatedCart = await controller.update(
+        const updatedCart = await cartDao.update(
             { _id: cid }, 
             { products: [] }, 
             { new: true } 

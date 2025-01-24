@@ -1,9 +1,9 @@
 import { Router } from "express";
 
 import ProductDao from "../dao/product.dao.js";
-import CartDao from "../dao/cart.dao.js";
+import {cartDao} from "../dao/cart.dao.js";
 
-const CaController = new CartDao()
+// const CaController = new cartDao()
 const ProController = new ProductDao()
 
 const router = Router();
@@ -105,7 +105,7 @@ router.get('/carts', async (req, res)=> {
 
 router.get('/carts/:cid', async(req, res)=> {
     const cid = req.params.cid
-    const cart = await CaController.getOne({_id: cid})
+    const cart = await cartDao.getOne({_id: cid})
     res.status(200).render('cart', {cart})
 })
 
