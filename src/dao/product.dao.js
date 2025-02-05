@@ -1,7 +1,7 @@
 import productModel from "./models/product.model.js";
 
 class ProductDao {
-  constructor() {}
+  constructor() { }
 
   getAll = async () => {
     try {
@@ -11,9 +11,9 @@ class ProductDao {
     }
   };
 
-  get = async (options) => {
+  getFiltered = async (options) => {
     try {
-      const { limit , page , sort, filter } = options;
+      const { limit, page, sort, filter } = options;
 
       let sortOptions;
       if (sort) {
@@ -56,6 +56,16 @@ class ProductDao {
     }
   };
 
+  getById = async (id) => {
+    try {
+      console.log("Buscando producto por ID:", id);
+      return await productModel.findById(id).lean();
+    } catch (err) {
+      console.error("Error al buscar el producto por ID:", err);
+      return null;
+    }
+  };
+
   getPaginated = async (pg) => {
     try {
       const page = pg || 1;
@@ -68,7 +78,7 @@ class ProductDao {
     }
   };
 
-  add = async (data) => {
+  create = async (data) => {
     try {
       return await productModel.create(data);
     } catch (err) {
@@ -84,7 +94,7 @@ class ProductDao {
     }
   };
 
-  delete = async (data, options) => {
+  deleteOne = async (data, options) => {
     try {
       return await productModel.findOneAndDelete(data, options);
     } catch (err) {
