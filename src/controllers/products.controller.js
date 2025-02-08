@@ -64,7 +64,18 @@ export class ProductsController{
         }
   
     async getById(req, res){
-  
+      const productId = req.params.pid;
+      const filter = { _id: productId };
+      const updated = req.body;
+      const options = { new: true };
+    
+      const process = await productsServices.update(filter, updated, options);
+    
+      if (process) {
+        res.status(200).send({ error: null, data: process });
+      } else {
+        res.status(404).send({ error: "No se encuentra el producto", data: [] });
+      }
     }
 
     async deleteOne(req, res){
@@ -84,20 +95,7 @@ export class ProductsController{
         res.status(500).send({ error: "Error al borrar el producto", data: null });
       }
     }
-    async update(req, res){
-      const productId = req.params.pid;
-      const filter = { _id: productId };
-      const updated = req.body;
-      const options = { new: true };
-    
-      const process = await productsServices.update(filter, updated, options);
-    
-      if (process) {
-        res.status(200).send({ error: null, data: process });
-      } else {
-        res.status(404).send({ error: "No se encuentra el producto", data: [] });
-      }
-    }
+    async update(req, res){}
     async create(req, res){}
 }
 
