@@ -1,4 +1,5 @@
 import { productsServices } from "../services/products.services.js";
+import { nanoid } from "nanoid";
 
 export class ProductsController{
 
@@ -99,7 +100,45 @@ export class ProductsController{
       }
     }
     async update(req, res){}
-    async create(req, res){}
+    async create(req, res){
+      const { title, description, code, price, stock, category, thumbnails } =
+          req.body;
+        const status = req.body.status === undefined ? true : req.body.status;
+      
+        if (
+          !title ||
+          !description ||
+          !code ||
+          !price ||
+          status === undefined ||
+          !stock ||
+          !category
+        ) {
+          return res
+            .status(400)
+            .send({ error: "Faltan campos obligatorios", data: [] });
+        }
+      
+        const newProduct = {
+          id: nanoid(10),
+          title,
+          description,
+          code,
+          price,
+          status,
+          stock,
+          category,
+          thumbnails: thumbnails || [],
+        };
+      
+        try {
+          const process = await productsServices.create(newProduct);
+          res.status(200).send({ error: null, data: process });
+        } catch (error) {
+          console.error("Error al agregar el producto:", error);
+          res.status(500).send({ error: "Error al agregar el producto", data: [] });
+        }
+    }
 }
 
 export const productsController = new ProductsController();
