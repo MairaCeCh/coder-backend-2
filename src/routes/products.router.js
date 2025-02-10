@@ -19,7 +19,7 @@ router.get("/paginated/", productsController.getFiltered);
 
 router.get("/paginated/:page", productsController.getFiltered);
 
-
+router.get("/:pid", productsController.getById);
 
 
 

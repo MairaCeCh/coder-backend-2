@@ -17,6 +17,7 @@ class ProductsServices {
     async deleteOne(id) {   
     return await productDao.deleteOne(id);
     }
+  
     async update(id, data) {
     return await productDao.update(id, data);
     }

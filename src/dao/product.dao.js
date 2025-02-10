@@ -86,9 +86,9 @@ class ProductDao {
     }
   };
 
-  update = async (filter, updated, options) => {
+  update = async (filter, updated ) => {
     try {
-      return await productModel.findOneAndUpdate(filter, updated, options);
+      return await productModel.findOneAndUpdate(filter, updated, {new: true});
     } catch (err) {
       return err.message;
     }

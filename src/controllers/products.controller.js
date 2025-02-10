@@ -81,14 +81,13 @@ export class ProductsController{
         res.status(404).send({ error: "No se encuentra el producto", data: [] });
       }
     }
-
     async deleteOne(req, res){
       const productId = req.params.pid;
       const filter = { _id: productId };
       const options = {};
     
       try {
-        const product = await productsServices.delete(filter, options);
+        const product = await productsServices.deleteOne(filter, options);
     
         if (!product) {
           return res.status(404).send({ error: "Product not found", data: null });
@@ -99,7 +98,20 @@ export class ProductsController{
         res.status(500).send({ error: "Error al borrar el producto", data: null });
       }
     }
-    async update(req, res){}
+    async update(req, res) {
+      try {
+          const productId = req.params.pid;
+          const updatedData = req.body;
+          const updatedProduct = await productsServices.update({_id: productId}, updatedData);
+          if (!updatedProduct) {
+              return res.status(404).send({ error: "Product not found" });
+          }
+          res.status(200).send({ error: null, data: updatedProduct });
+      } catch (err) {
+          console.error("Error al actualizar el producto:", err);
+          res.status(500).send({ error: "Error interno del servidor" });
+      }
+  }
     async create(req, res){
       const { title, description, code, price, stock, category, thumbnails } =
           req.body;
