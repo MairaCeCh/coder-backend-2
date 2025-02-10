@@ -7,6 +7,7 @@ class ProductsServices {
     }
 
     async getFiltered(options) {
+        console.log("options:", options);
         return await productDao.getFiltered(options);
     }
 

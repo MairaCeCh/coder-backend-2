@@ -14,63 +14,11 @@ const midd1 = (req, res, next) => {
 };
 
 router.get("/", productsController.getAll); 
-// router.get("/", async (req, res) => {
-  // try {
-  //   const { limit = 10, page = 1, sort, query, available } = req.query;
 
-  //   const limitNumber = parseInt(limit, 10);
-  //   const pageNumber = parseInt(page, 10);
+router.get("/paginated/", productsController.getFiltered);
 
-  //   if (isNaN(limitNumber) || limitNumber <= 0) {
-  //     return res
-  //       .status(400)
-  //       .send({ error: "El parámetro 'limit' debe ser un número positivo." });
-  //   }
+router.get("/paginated/:page", productsController.getFiltered);
 
-  //   if (isNaN(pageNumber) || pageNumber <= 0) {
-  //     return res
-  //       .status(400)
-  //       .send({ error: "El parámetro 'page' debe ser un número positivo." });
-  //   }
-  //   const filter = {};
-  //   if (query) {
-  //     console.log("si query", query);
-  //     filter.category = query;
-  //     console.log("filter::", filter);
-  //   }
-
-
-  //   if (available) {
-  //     if (available === 'true') {
-  //       filter.status = true; 
-  //     } else if (available === 'false') {
-  //       filter.status = false; 
-  //     }
-  //     console.log("filter con disponibilidad:", filter);
-  //   }
-
-   
-  //   const options = {
-  //     limit: limitNumber, 
-  //     page: pageNumber,
-  //     sort,
-  //     filter: filter,
-  //   };
-
-  //   const data = await productsServices.get(options); 
-
-  //   res.status(200).send({ error: null, data });
-  // } catch (err) {
-  //   console.error("Error al obtener productos:", err);
-  //   res.status(500).send({ error: "Error interno del servidor" });
-  // }
-// });
-
-router.get("/paginated/:pg?", async (req, res) => {
-  const pg = req.params.pg || 1;
-  const data = await productsServices.getPaginated(pg);
-  res.status(200).send({ error: null, data });
-});
 
 router.get("/all", async (req, res) => {
   const data = await productsServices.getAll();

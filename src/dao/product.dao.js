@@ -103,4 +103,10 @@ class ProductDao {
   };
 }
 
-export default ProductDao;
+console.log("pp", ProductDao)
+
+const productDao = new ProductDao();
+
+console.log("pp2", productDao)
+
+export default productDao;

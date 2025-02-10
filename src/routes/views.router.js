@@ -1,10 +1,12 @@
 import { Router } from "express";
 
-import ProductDao from "../dao/product.dao.js";
+
 import {cartDao} from "../dao/cart.dao.js";
 
+import productDao from "../dao/product.dao.js";
 
-const ProController = new ProductDao()
+
+
 
 const router = Router();
 
@@ -30,7 +32,7 @@ router.get('/products/:pid', async (req, res) => {
     try {
         console.log('pid:',pid)
        
-        const product = await ProController.getOne({_id:pid});
+        const product = await productDao.getOne({_id:pid});
         res.render('product', {product});
     } catch (error) {
         console.error('Error al obtener productos:', error);
@@ -43,7 +45,7 @@ router.get('/:cid/products/:pid', async (req, res) => {
     const cid = req.params.cid
     try {
 
-        const product = await ProController.getOne({_id:pid});
+        const product = await productDao.getOne({_id:pid});
         res.render('product', {product, cid});
     } catch (error) {
         console.error('Error al obtener productos:', error);
@@ -53,7 +55,7 @@ router.get('/:cid/products/:pid', async (req, res) => {
 
 router.get('/products/paginated/:pg',  async(req, res) => {
     const pg = req.params.pg;
-    const products = await ProController.getPaginated(pg)
+    const products = await productDao.getPaginated(pg)
     res.status(200).render('home', { products });
 });
 

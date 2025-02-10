@@ -13,7 +13,9 @@ export class ProductsController{
 
      async getFiltered(req, res) {
       try {
-        const { limit = 10, page = 1, sort, query, available } = req.query;
+        const { limit = 10, sort, query, available } = req.query;
+        const page = parseInt(req.params.page, 10) || 1;
+        console.log("sort:", sort);
     
         const limitNumber = parseInt(limit, 10);
         const pageNumber = parseInt(page, 10);
@@ -50,12 +52,13 @@ export class ProductsController{
         const options = {
           limit: limitNumber, 
           page: pageNumber,
-          sort,
+          sort: sort,
           filter: filter,
         };
     
         const data = await productsServices.getFiltered(options); 
     
+        console.log(page)
         res.status(200).send({ error: null, data });
       } catch (err) {
         console.error("Error al obtener productos:", err);
