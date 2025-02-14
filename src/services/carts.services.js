@@ -3,7 +3,7 @@ import { cartDao} from "../dao/cart.dao.js";
 
 class ProductsServices {
     async getAll() {
-        return await cartDao.get();
+        return await cartDao.getAll();
     }
 
     async fOne(data) {
@@ -30,8 +30,8 @@ class ProductsServices {
     return await cartDao.update(filter, updated, options);
     }
 
-    async delate(data, opcions) {
-    return await cartDao.delate(data, opcions);
+    async delete(data, opcions) {
+    return await cartDao.delete(data, opcions);
     }
 }
 

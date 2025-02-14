@@ -5,7 +5,7 @@ import productModel from "./models/product.model.js";
 class CartDao {
   constructor() {}
 
-  get = async () => {
+  getAll = async () => {
     try {
       return await cartModel.find().lean();
     } catch (err) {
