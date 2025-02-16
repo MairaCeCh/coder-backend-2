@@ -23,7 +23,6 @@ router.post("/login", passportCall("login"), async (req, res) => {
         console.log("req.user", req.user);
       const token = createToken(req.user);
       res.cookie("token", token, { httpOnly: true });
-      console.log("🚀 ~ router.post ~ res.cookie222:", res.cookie.token)
       console.log("🚀 ~ router.post ~ res.cookie:", token)
       
       res.status(200).json({ status: "success", payload: req.user, token });
@@ -45,7 +44,7 @@ router.get("/profile", async (req, res) => {
     }
 });
 
-router.get("/logout", async (req, res) => {
+router.get("/logout", authorization("user"),  async (req, res) => {
     try {
         req.session.destroy()
 

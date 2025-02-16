@@ -12,11 +12,11 @@ router.get("/paginated/:page", productsController.getFiltered);
 
 router.get("/:pid", productsController.getById);
 
-router.post("/",authorization("user"), productsController.create);
+router.post("/",authorization("admin"), productsController.create);
 
-router.put("/:pid", productsController.update);
+router.put("/:pid",authorization("admin"), productsController.update);
 
-router.delete("/:pid", productsController.deleteOne);
+router.delete("/:pid",authorization("admin"), productsController.deleteOne);
 
 export default router;
 

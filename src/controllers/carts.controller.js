@@ -2,39 +2,11 @@
 import { cartServices } from "../services/carts.services.js";
 import { nanoid } from "nanoid";
 
-export class ProductsController {
+export class CartController {
 
     async getAll(req, res) {
         const process = await cartServices.getAll()
         res.status(200).send({ error: null, data: process })
-    }
-
-    async fOne(req, res) {
-        const { cid, pid } = req.params;
-        const cart = await cartServices.fOne({ _id: cid });
-
-        if (!cart) {
-            console.log('Carrito no encontrado:', cart);
-            return res.status(406).send({ error: "Carrito no encontrado" });
-        }
-
-        const productInCart = cart.products.find((product) => product._id.toString() === pid);
-
-        if (productInCart) {
-            productInCart.quantity += 1;
-        } else {
-            cart.products.push({ _id: pid, quantity: 1 });
-        }
-
-
-        const cartToUpdate = {
-            _id: cart._id.toString(),
-            products: cart.products
-        };
-
-        const updatedCart = await cartServices.addProduct(cartToUpdate);
-
-        res.status(200).send({ error: null, data: updatedCart });
     }
 
     async getOne(req, res) {
@@ -127,4 +99,4 @@ export class ProductsController {
         }
     }
 }
-export const cartsController = new ProductsController()
+export const cartsController = new CartController()
