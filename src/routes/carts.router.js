@@ -1,19 +1,11 @@
 import { Router } from "express";
 import { cartsController } from "../controllers/carts.controller.js";
 
-// import {cartDao} from "../dao/cart.dao.js";
-
 const router = Router();
-
-
-let storeProducts = [];
-
-
 
 router.get("/", cartsController.getAll); 
 
 router.get("/:cid", cartsController.getOne);
-
 
 router.post("/", cartsController.create);
 

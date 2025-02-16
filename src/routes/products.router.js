@@ -1,17 +1,8 @@
 import { Router } from "express";
-import { nanoid } from "nanoid";
 import  {productsController} from "../controllers/products.controller.js";
-
-import ProductDao from "../dao/product.dao.js";
+import { authorization } from "../middlewares/authorization.middlewares.js";
 
 const router = Router();
-///borrado ahora//
-// const controller = new ProductDao();
-
-const midd1 = (req, res, next) => {
-  console.log("se recibio una solicitud GET");
-  next();
-};
 
 router.get("/", productsController.getAll); 
 
@@ -21,9 +12,7 @@ router.get("/paginated/:page", productsController.getFiltered);
 
 router.get("/:pid", productsController.getById);
 
-
-
-router.post("/", productsController.create);
+router.post("/",authorization("user"), productsController.create);
 
 router.put("/:pid", productsController.update);
 

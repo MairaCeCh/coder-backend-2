@@ -48,7 +48,6 @@ export class ProductsController {
         }
     }
 
-
     async addProduct(req, res) {
         const { cid, pid } = req.params;
     
@@ -85,30 +84,6 @@ export class ProductsController {
         res.status(201).send({ error: null, data: process });
     }
 
-    
-
-    async update(req, res) { 
-        const { cid } = req.params;
-        const updatedData = req.body;
-
-        try {
-            const updatedCart = await cartServices.update(
-                { _id: cid },
-                updatedData,
-                { new: true }
-            );
-
-            if (!updatedCart) {
-                return res.status(404).send({ error: 'Carrito no encontrado' });
-            }
-
-            res.status(200).send({ error: null, data: updatedCart });
-        } catch (err) {
-            console.error("Error al actualizar el carrito:", err);
-            res.status(500).send({ error: "Error interno del servidor" });
-        }
-    }
-
     async deleteOneProduct(req, res) {
         const { cid, pid } = req.params;
 
@@ -133,6 +108,7 @@ export class ProductsController {
             res.status(500).send({ error: "Error interno del servidor" });
         }
     }
+
     async delete(req, res){
         const { cid } = req.params;
 
@@ -149,7 +125,6 @@ export class ProductsController {
             console.error("Error al eliminar el carrito:", err);
             res.status(500).send({ error: "Error interno del servidor" });
         }
-      }
-    
+    }
 }
 export const cartsController = new ProductsController()

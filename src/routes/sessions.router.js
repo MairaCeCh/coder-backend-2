@@ -20,10 +20,12 @@ router.post("/register", passportCall("register"), async (req, res) => {
 
 router.post("/login", passportCall("login"), async (req, res) => {
     try {
-      
+        console.log("req.user", req.user);
       const token = createToken(req.user);
       res.cookie("token", token, { httpOnly: true });
-  
+      console.log("🚀 ~ router.post ~ res.cookie222:", res.cookie.token)
+      console.log("🚀 ~ router.post ~ res.cookie:", token)
+      
       res.status(200).json({ status: "success", payload: req.user, token });
     } catch (error) {
       console.log(error);
@@ -34,7 +36,7 @@ router.post("/login", passportCall("login"), async (req, res) => {
 router.get("/profile", async (req, res) => {
     try {
         if(!req.session.user) return res.status(404).json({ status: "error", msg: "usuarion no logueado" });
-        if( req.session.user.role !== "user" ) return res.status(403).json({ status: "error", msg: "usuarion no autorizadp" });
+        if( req.session.user.role !== "user" ) return res.status(403).json({ status: "error", msg: "usuarion no autorizado" });
 
         res.status(200).json({ status: "success", payload: req.session.user });
     } catch (error) {
