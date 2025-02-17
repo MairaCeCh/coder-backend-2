@@ -2,8 +2,6 @@ import { Carts } from "../dao/factory.js";
 
 let cartDao = new Carts()
 
-console.log("carts:",cartDao)
-
 class CartsServices {
     async getAll() {
         return await cartDao.getAll();

@@ -1,5 +1,6 @@
-import productDao from '../dao/mongo/product.dao.js';
+import {Products} from "../dao/factory.js";
 
+const productDao = new Products()
 
 class ProductsServices {
     async getAll() {

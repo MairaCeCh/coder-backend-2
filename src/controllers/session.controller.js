@@ -1,6 +1,13 @@
-import { userDao } from "../dao/mongo/user.dao.js";
 import { createHash } from "../utils/hashPassword.js";
 import { createToken } from '../utils/jwt.js';
+
+import {Users} from "../dao/factory.js"
+
+const userDao = new Users()
+
+console.log("usersss",userDao)
+
+
 
 export class SessionController {
     async register(req, res) {

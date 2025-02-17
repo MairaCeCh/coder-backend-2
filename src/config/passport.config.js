@@ -1,15 +1,15 @@
-
-
 import passport from "passport";
 import local from "passport-local";
-import { userDao } from "../dao/mongo/user.dao.js";
 import { createHash, isValidPassword } from "../utils/hashPassword.js";
 import jwt from "passport-jwt";
-import  CartDao from "../dao/mongo/cart.dao.js";
-
 import google from "passport-google-oauth20"
 import { cookieExtractor } from "../utils/cookieExtractor.js";
 
+import {Users, Carts} from "../dao/factory.js"
+
+const userDao = new Users()
+const cartDao = new Carts()
+console.log("usersss:", userDao, cartDao)
 
 const LocalStrategy = local.Strategy;
 const GoogleStrategy = google.Strategy;
@@ -17,16 +17,12 @@ const JWTstrategy = jwt.Strategy;
 const ExtractJWT = jwt.ExtractJwt;
 
 
-const cartDao = new CartDao()
-
-
 export const initializedPassport = () => {
 
     passport.use("register", new LocalStrategy({ passReqToCallback: true, usernameField: "email" }, async (req, username, password, done) => {
         try {
             const { first_Name, last_Name, age, role } = req.body;
-            const user = await userDao.getByEmail(username);
-      
+            const user = await userDao.getByEmail(username);    
             if (user) {
                 return done(null, false, { message: "el usuario ya existe" });
               
@@ -44,6 +40,7 @@ export const initializedPassport = () => {
 
         console.log("newuser", newUser)
             const createUser = await userDao.create(newUser);
+            console.log("dddd", userDao)
             done(null, createUser);
         } catch (error) {
             done(error);

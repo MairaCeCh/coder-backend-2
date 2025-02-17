@@ -1,6 +1,4 @@
 import cartModel from "./models/cart.model.js";
-import productModel from "./models/product.model.js";
-
 
 class CartDao {
   constructor() {}
@@ -59,8 +57,6 @@ class CartDao {
       console.error("Error al actualizar el carrito", err); // Manejo de errores
     }
   };
-
-
 
   create = async () => {
     const cart = await cartModel.create({});
