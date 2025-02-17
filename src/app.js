@@ -45,15 +45,14 @@ app.use("/", viewsRouter);
 // Socket.io
 const httpServer = app.listen(config.PORT, async () => {
   await mongoose.connect(config.MONGODB_URI);
-  console.log(`Server activo en el puerto ${config.PORT} conectado a bbdd`);
+
 });
 
 const socketServer = new Server(httpServer);
 
 socketServer.on("connection", (socket) => {
   socket.on("update_ok", (data) => {
-    console.log("update");
-    console.log('data:',data);
+   
     socketServer.emit("new_data", data);
   });
 });
