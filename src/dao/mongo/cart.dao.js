@@ -39,6 +39,16 @@ class CartDao {
     }
 };
 
+getById = async (id) => {
+  try {
+    console.log("Buscando carrito por ID:", id);
+    return await cartModel.findById(id).lean();
+  } catch (err) {
+    console.error("Error al buscar el carrito por ID:", err);
+    return null;
+  }
+};
+
   addProduct = async (data) => {
     try {
       console.log(data);
@@ -73,7 +83,7 @@ class CartDao {
     }
   };
 
-  update = async (filter, updated, options) => {
+  update = async (filter, updated, options = { new: true, runValidators: true }) => {
     try {
       return await cartModel.findOneAndUpdate(filter, updated, options);
     } catch (err) {

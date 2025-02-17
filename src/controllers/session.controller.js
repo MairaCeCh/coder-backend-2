@@ -74,7 +74,15 @@ export class SessionController {
     }
 
     async current(req, res) {
-        res.json({ status: "ok", user: req.user });
+
+
+        
+router.get("/current", passportCall("jwt"), authorization("user"), async (req, res) => {
+
+  
+  
+    res.json({ status: "ok", user: user });
+  });
     }
 }
 

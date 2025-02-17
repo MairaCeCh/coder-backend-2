@@ -1,5 +1,10 @@
 
 import { cartServices } from "../services/carts.services.js";
+import { ticketService } from "../services/ticket.services.js";
+import { request, response } from "express";
+
+// import { productDao } from "../dao/mongo/product.dao.js";
+
 import { nanoid } from "nanoid";
 
 export class CartController {
@@ -98,5 +103,21 @@ export class CartController {
             res.status(500).send({ error: "Error interno del servidor" });
         }
     }
+    async purchaseCart(req , res ) {
+        try {
+          const { cid } = req.params;
+          const cart = await cartServices.getById(cid);
+          if (!cart) return res.status(404).json({ status: "Error", msg: `No se encontró el carrito con el id ${cid}` });
+          if(cart.products.length === 0) return res.status(400).json({status: "error", msg: "Carrito vacío"})
+    
+          const total = await cartServices.purchaseCart(cid);
+
+          const ticket = await ticketService.create(total, req.user.email);
+          res.status(200).json({ status: "success", ticket });
+        } catch (error) {
+          console.log(error);
+          res.status(500).json({ status: "Erro", msg: "Error interno del servidor" });
+        }
+      }
 }
 export const cartsController = new CartController()
