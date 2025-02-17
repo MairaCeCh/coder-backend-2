@@ -3,7 +3,7 @@ import mongoosePaginate from 'mongoose-paginate-v2';
 
 // Anulamos comportamiento de renombre por defecto de colecciones
 mongoose.pluralize(null);
-import config from "../../config.js";
+import config from "../../../config.js";
 
 // Colección
 const collection = config.CART_COLLECTION;

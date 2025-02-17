@@ -1,42 +1,26 @@
-import dbConnect from "../utils/dbconnect.utils.js";
-import argsUtil from "../utils/args.util.js";
+import config from "../config.js";
 
-const { persistence } = argsUtil;
+export let Products;
+export let Carts;
+export let Users;
 
-let dao = {};
-
-switch (persistence) {
+switch(config.PERSISTENCE) {
   case "fs":
-    console.log("connected to FS");
-    const { default: ProductsManagerFS } = await import(
-      "./fs/managers/products.manager.fs.js"
-    );
-    const { default: UsersManagerFS } = await import("./fs/managers/users.manager.fs.js");
-    const { default: CartsManagerFS } = await import("./fs/managers/carts.manager.fs.js");
-    dao = {
-      ProductsManager: ProductsManagerFS,
-      UsersManager: UsersManagerFS,
-      CartsManager: CartsManagerFS,
-    };
+    const { default: ProductsFs } = await import('./fs/product.dao.js');
+    const { default: CartsFs } = await import('./fs/cart.dao.js');
+    const { default: UsersFs } = await import('./fs/user.dao.js');
+    Products = ProductsFs;
+    Carts = CartsFs;
+    Users = UsersFs;
+    break;
+  case "mongo":
+    const { default: ProductsMongo } = await import('./mongo/product.dao.js');
+    const { default: CartsMongo } = await import('./mongo/cart.dao.js');
+    const { default: UsersMongo } = await import('./mongo/user.dao.js');
+    Products = ProductsMongo;
+    Carts = CartsMongo;
+    Users = UsersMongo;
     break;
   default:
-    console.log("connected to mongo system");
-    dbConnect();
-    const { default: ProductsManagerMongo } = await import(
-      "./mongo/managers/product.manager.js"
-    );
-    const { default: UsersManagerMongo } = await import(
-      "./mongo/managers/users.manager.js"
-    );
-    const { default: CartsManagerMongo } = await import(
-      "./mongo/managers/cart.manager.js"
-    );
-    dao = {
-      ProductsManager: ProductsManagerMongo,
-      UsersManager: UsersManagerMongo,
-      CartsManager: CartsManagerMongo,
-    };
-    break;
+    throw new Error(`Unknown persistence type: ${config.PERSISTENCE}`);
 }
-
-export default dao; 

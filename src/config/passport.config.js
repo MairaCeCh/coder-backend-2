@@ -2,10 +2,10 @@
 
 import passport from "passport";
 import local from "passport-local";
-import { userDao } from "../dao/user.dao.js";
+import { userDao } from "../dao/mongo/user.dao.js";
 import { createHash, isValidPassword } from "../utils/hashPassword.js";
 import jwt from "passport-jwt";
-import  { cartDao } from "../dao/cart.dao.js";
+import  CartDao from "../dao/mongo/cart.dao.js";
 
 import google from "passport-google-oauth20"
 import { cookieExtractor } from "../utils/cookieExtractor.js";
@@ -17,6 +17,7 @@ const JWTstrategy = jwt.Strategy;
 const ExtractJWT = jwt.ExtractJwt;
 
 
+const cartDao = new CartDao()
 
 
 export const initializedPassport = () => {

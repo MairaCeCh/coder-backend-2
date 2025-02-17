@@ -1,7 +1,10 @@
-import { cartDao} from "../dao/cart.dao.js";
+import { Carts } from "../dao/factory.js";
 
+let cartDao = new Carts()
 
-class ProductsServices {
+console.log("carts:",cartDao)
+
+class CartsServices {
     async getAll() {
         return await cartDao.getAll();
     }
@@ -35,4 +38,4 @@ class ProductsServices {
     }
 }
 
-export const cartServices = new ProductsServices();
+export const cartServices = new CartsServices();

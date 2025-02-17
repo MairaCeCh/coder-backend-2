@@ -1,14 +1,16 @@
 import { Router } from "express";
 
 
-import {cartDao} from "../dao/cart.dao.js";
+import CartDao from "../dao/mongo/cart.dao.js";
 
-import productDao from "../dao/product.dao.js";
+import productDao from "../dao/mongo/product.dao.js";
 
 
 
 
 const router = Router();
+
+const cartDao = new CartDao()
 
 router.get('/products', async (req, res) => {
     try {

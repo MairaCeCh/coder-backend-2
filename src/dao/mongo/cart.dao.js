@@ -94,4 +94,4 @@ class CartDao {
   };
 }
 
-export const cartDao = new CartDao();
+export default CartDao

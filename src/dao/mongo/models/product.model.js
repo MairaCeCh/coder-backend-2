@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 import mongoosePaginate from 'mongoose-paginate-v2';
-import config from "../../config.js";
-
+import config from "../../../config.js";
 
 mongoose.pluralize(null);
 

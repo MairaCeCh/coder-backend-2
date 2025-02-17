@@ -1,4 +1,3 @@
-// filepath: /c:/Users/Mayra/Documents/programar/PreEntrega-chirino-Backend/src/config.js
 import * as url from "url";
 import dotenv from "dotenv";
 
@@ -12,7 +11,9 @@ const config = {
     return `${this.DIRNAME}/public/uploads`;
   },
 
+  PERSISTENCE: process.env.PERSISTENCE,
   MONGODB_URI: process.env.MONGODB_URI,
+
   CART_COLLECTION: 'carts',
   PRODUCTS_COLLECTION: 'products'
 };
